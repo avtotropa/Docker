@@ -1,25 +1,27 @@
 stages:
     - deploy
-    - clean
+#    - clean
 
 Deploy to stage:
     stage: deploy
     script:
-        - docker run -d --rm --name db -e POSTGRES_NAME=dfr -e POSTGRES_PASSWORD=dfr -e POSTGRES_DB=dfr -p 5432:5432 postgres
-        - ls
-        - more .env
-        - cp $ENV_STAGE .env
-        - bash deploy.sh
+        - docker-compose build
+        - docker-compose up
+#        - docker run -d --rm --name db -e POSTGRES_NAME=dfr -e POSTGRES_PASSWORD=dfr -e POSTGRES_DB=dfr -p 5432:5432 postgres
+#        - ls
+#        - more .env
+#        - cp $ENV_STAGE .env
+#        - bash deploy.sh
     only:
         - main
     tags:
         - dev
 
-Clean to stage:
-    stage: clean
-    script:
-        - docker rm -f $(docker ps -a -q)
-    only:
-        - main
-    tags:
-        - dev
+#Clean to stage:
+#    stage: clean
+#    script:
+#        - docker rm -f $(docker ps -a -q)
+#    only:
+#        - main
+#    tags:
+#        - dev
